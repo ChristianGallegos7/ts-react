@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ErrorMessage } from "../../components/ErrorMessage";
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '../../components/ErrorMessage';
 
-export const LoginEmpresa = () => {
+export const LoginUsuario = () => {
   const initialValues = {
     email: '',
     password: ''
@@ -50,4 +50,4 @@ export const LoginEmpresa = () => {
       </div>
     </div>
   );
-};
+}
