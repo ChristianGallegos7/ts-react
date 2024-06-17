@@ -1,4 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const EmpresaLayout = () => {
 
@@ -30,6 +32,7 @@ export const EmpresaLayout = () => {
       <footer className="bg-red-700 text-white p-4 text-center">
         <p>&copy; 2024 Empresa. Todos los derechos reservados.</p>
       </footer>
+      <ToastContainer/>
     </div>
   );
 };

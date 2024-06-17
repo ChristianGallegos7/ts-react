@@ -1,24 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { toast } from 'react-toastify';
+import { useMutation } from '@tanstack/react-query'
+import { crearEmpresa } from '../../api/EmpresaAPI';
 
 export const RegistroEmpresa = () => {
   const initialValues = {
-    nombreEmpresa: '',
-    email: '',
+    nombre: '',
+    correo: '',
     password: '',
     direccion: '',
     telefono: '',
-    sitioWeb: '',
+    web: '',
     descripcion: '',
     ruc: ''
   };
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({ defaultValues: initialValues });
+
+  const { mutate } = useMutation({
+    mutationFn: crearEmpresa,
+    onSuccess: () => {
+      reset()
+      toast.success("Empresa creada correctamente")
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    // Aquí puedes manejar el envío del formulario, por ejemplo, hacer una solicitud a tu API
+    mutate(data)
   };
 
   return (
@@ -28,14 +41,14 @@ export const RegistroEmpresa = () => {
           <h2 className="text-2xl font-bold mb-6 text-center text-[#003459]">Registro - Empresa</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label htmlFor="nombreEmpresa" className="block text-sm font-medium text-gray-700">Nombre de la Empresa</label>
+              <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre de la Empresa</label>
               <input
                 type="text"
-                id="nombreEmpresa"
-                {...register('nombreEmpresa', { required: 'El nombre de la empresa es obligatorio' })}
+                id="nombre"
+                {...register('nombre', { required: 'El nombre de la empresa es obligatorio' })}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#003459] focus:border-[#003459]"
               />
-              {errors.nombreEmpresa && <ErrorMessage>{errors.nombreEmpresa.message}</ErrorMessage>}
+              {errors.nombre && <ErrorMessage>{errors.nombre.message}</ErrorMessage>}
             </div>
             <div>
               <label htmlFor="ruc" className="block text-sm font-medium text-gray-700">RUC</label>
@@ -51,11 +64,11 @@ export const RegistroEmpresa = () => {
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
               <input
                 type="email"
-                id="email"
-                {...register('email', { required: 'El correo es obligatorio', pattern: { value: /^\S+@\S+$/i, message: 'Correo no válido' } })}
+                id="correo"
+                {...register('correo', { required: 'El correo es obligatorio', pattern: { value: /^\S+@\S+$/i, message: 'Correo no válido' } })}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#003459] focus:border-[#003459]"
               />
-              {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+              {errors.correo && <ErrorMessage>{errors.correo.message}</ErrorMessage>}
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
@@ -88,14 +101,14 @@ export const RegistroEmpresa = () => {
               {errors.telefono && <ErrorMessage>{errors.telefono.message}</ErrorMessage>}
             </div>
             <div>
-              <label htmlFor="sitioWeb" className="block text-sm font-medium text-gray-700">Sitio Web</label>
+              <label htmlFor="web" className="block text-sm font-medium text-gray-700">Sitio Web</label>
               <input
                 type="url"
-                id="sitioWeb"
-                {...register('sitioWeb', { required: 'El sitio web es obligatorio' })}
+                id="web"
+                {...register('web', { required: 'El sitio web es obligatorio' })}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#003459] focus:border-[#003459]"
               />
-              {errors.sitioWeb && <ErrorMessage>{errors.sitioWeb.message}</ErrorMessage>}
+              {errors.web && <ErrorMessage>{errors.web.message}</ErrorMessage>}
             </div>
             <div>
               <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción</label>
