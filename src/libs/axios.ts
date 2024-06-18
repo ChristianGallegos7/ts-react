@@ -2,5 +2,5 @@ import axios from 'axios'
 
 
 export const api = axios.create({
-    baseURL: 'https://ts-node-0gyl.onrender.com'
+    baseURL: 'http://localhost:3000/api' || import.meta.env.VITE_API_URL
 })

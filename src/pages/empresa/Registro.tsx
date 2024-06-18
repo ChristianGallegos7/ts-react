@@ -4,8 +4,12 @@ import { ErrorMessage } from '../../components/ErrorMessage';
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query'
 import { crearEmpresa } from '../../api/EmpresaAPI';
+import { useNavigate } from 'react-router-dom';
 
 export const RegistroEmpresa = () => {
+
+  const navigate = useNavigate()
+
   const initialValues = {
     nombre: '',
     correo: '',
@@ -21,12 +25,13 @@ export const RegistroEmpresa = () => {
 
   const { mutate } = useMutation({
     mutationFn: crearEmpresa,
-    onSuccess: () => {
-      reset()
-      toast.success("Empresa creada correctamente")
-    },
     onError: (error) => {
       toast.error(error.message)
+    },
+    onSuccess: (data) => {
+      toast.success(data)
+      reset();
+      navigate('/empresa/login');
     }
   })
 

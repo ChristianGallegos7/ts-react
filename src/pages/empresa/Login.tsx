@@ -1,18 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { useMutation } from '@tanstack/react-query';
+import { loginEmpresa } from '../../api/EmpresaAPI';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginEmpresa = () => {
+
+  const navigate = useNavigate()
+
   const initialValues = {
     email: '',
     password: ''
   };
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({ defaultValues: initialValues });
+
+  const { mutate } = useMutation({
+    mutationFn: loginEmpresa,
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    onSuccess: (data) => {
+      toast.success(data)
+      reset();
+      navigate('/empresa/login');
+    }
+  })
+
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    // Aquí puedes manejar el envío del formulario, por ejemplo, hacer una solicitud a tu API
+    mutate(data)
   };
 
   return (
